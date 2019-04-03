@@ -13,7 +13,7 @@ class UserPublic(Base):
 
 class UserPrivate(Base):
     __tablename__ = "user_private"
-    id = Column(Integer, ForeignKey("user.id"), primary_key=True)
+    user_id = Column(Integer, ForeignKey("user.id"), primary_key=True)
     key = Column(String)
     email = Column(String)
 
@@ -21,4 +21,4 @@ class UserPrivate(Base):
 # "user" and "user_private".
 class User(Base):
     __table__ = outerjoin(UserPublic.__table__, UserPrivate.__table__)
-    id = column_property(UserPublic.__table__.c.id, UserPrivate.__table__.c.id)
+    id = column_property(UserPublic.__table__.c.id, UserPrivate.__table__.c.user_id)
