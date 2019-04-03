@@ -1,8 +1,6 @@
+from sqlalchemy import Column, Integer, String, outerjoin, ForeignKey
+from sqlalchemy.orm import column_property
 from sqlalchemy.ext.declarative import declarative_base
-
-from sqlalchemy import Column, Integer, \
-        String, MetaData, outerjoin, ForeignKey
-from sqlalchemy.orm import column_property, sessionmaker
 
 Base = declarative_base()
 
