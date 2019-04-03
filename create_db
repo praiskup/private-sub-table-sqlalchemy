@@ -1,0 +1,27 @@
+#! /usr/bin/python3
+
+import sys
+import uuid
+from sqlalchemy import create_engine
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import sessionmaker
+
+from models import Base, User
+
+engine = create_engine('sqlite:///private_tables.db')
+Base.metadata.create_all(engine)
+
+Session = sessionmaker()
+session = Session(bind=engine)
+
+for user in "jdoe", "mmonroe", "ppan":
+    session.add(User(nick=user, email=user + "@example.com", key=str(uuid.uuid4())))
+
+try:
+    session.commit()
+except IntegrityError:
+    print("users arleady added")
+    sys.exit(0)
+
+session.execute("delete from user_private where email = 'jdoe@example.com'")
+session.commit()

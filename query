@@ -1,0 +1,16 @@
+#! /usr/bin/python3
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+from models import Base, User
+
+engine = create_engine('sqlite:///private_tables.db')
+Session = sessionmaker()
+session = Session(bind=engine)
+
+for user in session.query(User):
+    if user.email:
+        print("has_private_data: {}".format(user.nick))
+    else:
+        print("no_private_data:  {}".format(user.nick))
